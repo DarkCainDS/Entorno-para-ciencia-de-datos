@@ -1,0 +1,20 @@
+Objetivo
+Crear la ruta “./data/raw/” independiente del sistema operativo. En este caso usaremos os, un módulo de Python que sirve para manejar rutas.
+
+IMPORTANTE: cerciórate de que estás trabajando en el entorno correcto.
+
+Implementación
+Dentro del notebook de jupyter:
+
+import os
+
+CURRENT_DIR = os.getcwd()  # Ruta actual de trabajo
+DATA_DIR = os.path.join(CURRENT_DIR, os.pardir, "data", "raw")  # Ruta objetivo (os.pardir: ruta padre)
+
+os.path.exists(DATA_DIR)  # Revisa si el path existe
+os.path.isdir(DATA_DIR)  # Revisa si es un directorio
+
+os.listdir(DATA_DIR)  # Itera por los archivos dentro del directorio
+
+os.mkdir(os.path.join(DATA_DIR, "os"))  # Crea la carpeta *"os"*
+Contribución creada por: Néstor Arellano.

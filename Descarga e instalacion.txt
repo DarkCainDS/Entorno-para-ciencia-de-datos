@@ -1,0 +1,19 @@
+Descarga e Instalación
+Para instalar y ejecutar la plantilla a usar, en el caso práctico, en una terminal escribir:
+
+conda activate <nombre_entorno_cookiecutter>
+cookiecutter https://github.com/jvelezmagic/cookiecutter-conda-data-science
+Durante la instalación de la plantilla y para que puedas reproducir el proyecto del profesor, elige las siguientes opciones:
+
+Select project packages: Minimal
+Python version: 3.9
+Activación
+Para activar el proyecto, ejecutar lo siguiente en consola:
+
+cd <nombre_carpeta_proyecto>
+conda env create --file environment.yml
+conda list python
+code .
+Contribución creada por: Néstor Arellano.
+
+Lecturas recomendadas

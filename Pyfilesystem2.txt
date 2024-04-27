@@ -1,0 +1,69 @@
+Objetivo
+Crear la ruta “./data/raw/” independiente del sistema operativo. Ahora usaremos PyFilesystem2.
+
+Implementación
+Dentro del notebook de jupyter:
+
+import fs
+
+fs.open_fs(".")  # Abre una conexión con el path actual (OSFS)
+
+CURRENT_DIR = fs.open_fs(".")
+
+CURRENT_DIR.exists(".")  # Revisa si el directorio existe
+DATA_DIR.listdir(".")  # Muestra el contenido dentro de la ruta.
+PyFilesystem2 genera un objeto OSFS (Operating System Filesystem).
+
+El inconveniente con este módulo es que el objeto OSFS solo detecta los objetos que existen en la ruta actual, por lo que si intentas acceder a un archivo ubicado en el directorio padre “…” te saltará un IndexError.
+
+Si necesitas que el objeto OSFS también detecte el directorio padre, además de las carpetas “data” y “raw”, vuelve a generar el objeto de la siguiente forma:
+
+fs.open_fs("../data/raw/")  # Ruta objetivo
+
+
+
+Veo muchos comentarios indicando que os y pathlib son mejores que PyFilesystem. Creo que tienen sus razones dado que PyFilesystem es orientado a objetos y de pronto muchos no nos gusta cómo funciona.
+
+El poder de está librería se ve cuando tengamos las siguientes condiciones:
+
+Necesitamos que funcione sin importar si estamos en Windows, Linux, Mac, AWS S3, Archivos zip, Servidores FTP, etc.
+Es util para crear Test unitarios dado que se puede manejar archivos en memoria y no archivos del disco duro.
+
+
+Manejo de rutas del sistema: PyFilesystem2
+PyFilesystem2 genera un objeto OSFS (Operating System Filesystem). El inconveniente con este módulo es que el objeto OSFS solo detecta los objetos que existen en la ruta actual, por lo que si intentas acceder a un archivo ubicado en el directorio padre “…” te saltará un IndexError.
+
+Mostrar la ruta actual
+import fs
+fs.open_fs(".")
+Verificar que un directorio exista
+#Verifica que el directorio exista
+CURRENT_DIR = fs.open_fs(".")
+CURRENT_DIR.exists("/ruta_prueba")
+Error al verificar la existencia del directorio padre. ATENTOS
+#Esta libreria trabaja con conexiones
+#Solo existe lo que esta en la ruta que se define cono conexion
+#Marca error al verificar que existe el directorio padre de la ruta
+CURRENT_DIR.exists("..")
+Ir a una carpeta especifica
+#Ir a la carpeta /data/raw
+#la ventaja de esta libreria es que trabajas con slash (/) en cualquier Sistema operativo
+fs.open_fs("../data/raw")
+Listar archivos de una carpeta
+#Listar lo que hay en una carpeta
+DATA_DIR = fs.open_fs("../data/raw")
+DATA_DIR.listdir(".")
+Iterar archivos de una carpeta
+#Iterar archivos de una carpeta
+for path in DATA_DIR.walk.files():
+    print(path)
+Mostrar contenido de los archivos iterados
+#mostrar contenido de los archivos iterados
+for path in DATA_DIR.walk.files():
+    print(path)
+    with DATA_DIR.open(path) as data_file:
+        print(data_file.readlines())
+Crear una carpeta
+#Crear una carpeta
+#solo se puede crear dentro de la conexion donde te encuentras
+DATA_DIR.makedir("external_fs", recreate=True)
